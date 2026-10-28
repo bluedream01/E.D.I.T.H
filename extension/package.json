@@ -1,0 +1,23 @@
+{
+  "name": "privacy-browser-agent-extension",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "node build.mjs",
+    "dev": "node build.mjs --watch",
+    "test": "vitest run",
+    "benchmark": "vitest bench --run"
+  },
+  "dependencies": {
+    "onnxruntime-web": "1.14.0"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.269",
+    "esbuild": "^0.23.1",
+    "jsdom": "^25.0.0",
+    "typescript": "^5.5.4",
+    "vitest": "^2.0.5"
+  }
+}

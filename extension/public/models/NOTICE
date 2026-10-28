@@ -1,0 +1,7 @@
+version-RFB-320.onnx
+
+Source: https://github.com/Linzaer/Ultra-Light-Fast-Generic-Face-Detector-1MB
+License: MIT
+
+Used for on-device face detection (visual PII redaction) in
+extension/src/ml/onnxFaceDetector.ts. Unmodified from upstream.

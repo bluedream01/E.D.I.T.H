@@ -1,0 +1,10 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8001:8000"
+    environment:
+      AGENT_API_KEY: dev-local-only-key
+      AGENT_TOKEN_SECRET: dev-local-only-secret-change-me
+      VLM_PROVIDER: mock
+      ALLOWED_ORIGINS: "*"

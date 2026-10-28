@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Privacy Browser Agent</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="title">Privacy Shield: <span id="shield-state" class="pill pill-active">ACTIVE</span></div>
+      <div class="subtitle">Raw PII sent to server: <strong id="raw-pii-count">0</strong></div>
+    </header>
+
+    <section class="card">
+      <div class="row"><span>Backend connection</span><span id="backend-state" class="pill">checking...</span></div>
+      <div class="row"><span>Sensitive regions hidden</span><span id="regions-hidden">0</span></div>
+      <div class="row"><span>Current action</span><span id="current-action">Waiting...</span></div>
+    </section>
+
+    <section id="error-box" class="card error hidden"></section>
+
+    <section class="card chat-card">
+      <div id="chat-log" class="chat-log">
+        <div id="chat-empty" class="muted">
+          Ask me to do something on this page — e.g. "fill the form" or "search for headphones".
+        </div>
+      </div>
+      <div class="chat-input-row">
+        <textarea id="chat-input" rows="1" placeholder="Type a message..."></textarea>
+        <button id="btn-send" class="btn btn-primary">Send</button>
+      </div>
+      <button id="btn-reset" class="btn btn-secondary btn-reset-chat">Reset conversation</button>
+    </section>
+
+    <details class="card" id="sanitized-view-box">
+      <summary>Sanitized view sent to backend</summary>
+      <div id="sanitized-empty" class="muted">Run a task to see it here.</div>
+      <div id="sanitized-content" class="hidden">
+        <div class="muted" style="margin-top:6px;">Redacted screenshot (black boxes = locally redacted regions):</div>
+        <img id="sanitized-screenshot" alt="sanitized screenshot" />
+        <div class="muted" style="margin-top:8px;">Elements payload (semantic tokens only, no raw values):</div>
+        <pre id="sanitized-elements-json"></pre>
+      </div>
+    </details>
+
+    <section id="confirmation-box" class="card confirmation hidden">
+      <div class="confirm-title">AI wants to:</div>
+      <ul id="confirmation-list"></ul>
+      <div class="confirm-buttons">
+        <button id="btn-allow" class="btn btn-allow">Allow</button>
+        <button id="btn-deny" class="btn btn-deny">Deny</button>
+      </div>
+    </section>
+
+    <details class="card">
+      <summary>Local profile (stored on-device only, never sent to backend)</summary>
+      <div class="grid">
+        <label>First name <input id="p-firstname" type="text" /></label>
+        <label>Last name <input id="p-lastname" type="text" /></label>
+        <label>Full name <input id="p-name" type="text" placeholder="auto from first + last" /></label>
+        <label>Email <input id="p-email" type="email" /></label>
+        <label>Phone <input id="p-phone" type="text" /></label>
+        <label>Password <input id="p-password" type="password" /></label>
+        <label>Address <input id="p-address" type="text" /></label>
+        <label>Date of birth <input id="p-dob" type="text" placeholder="DD/MM/YYYY" /></label>
+        <label>Card number <input id="p-card" type="text" /></label>
+        <label>CVV <input id="p-cvv" type="text" /></label>
+        <label>Aadhaar <input id="p-aadhaar" type="text" /></label>
+        <label>PAN <input id="p-pan" type="text" /></label>
+      </div>
+      <button id="btn-save-profile" class="btn btn-primary">Save profile</button>
+    </details>
+
+    <details class="card">
+      <summary>Backend settings</summary>
+      <label>Base URL <input id="s-baseurl" type="text" /></label>
+      <label>API key <input id="s-apikey" type="text" /></label>
+      <button id="btn-save-settings" class="btn btn-primary">Save settings</button>
+    </details>
+
+    
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,272 @@
+/* ---------------------------------------------------------------------------
+ * Meadow Green theme.
+ *
+ * The palette's own ten stops are its light-to-mid greens and its deep
+ * blues. Only the greens carry the UI: the blues read heavy at the sizes
+ * this popup uses, and a wall of them made a 340px panel feel like a
+ * dashboard rather than a tool. Blue survives in exactly one role — the
+ * light theme's focus ring — where a cool colour is the clearest "you are
+ * here" against an otherwise warm-green surface. On dark the ring moves to
+ * the palette's teal, which reads brighter against a near-black ground.
+ *
+ * --ink / --green-700 / --green-800 are darkened continuations of
+ * --green-400 (same hue, lower lightness). The palette bottoms out around
+ * #52b69a, which is too light to put white text on, so the ramp has to
+ * extend for buttons and body copy to clear AA.
+ * ------------------------------------------------------------------------ */
+:root {
+  /* Palette greens, light -> mid */
+  --green-50: #d9ed92;
+  --green-100: #b5e48c;
+  --green-200: #99d98c;
+  --green-300: #76c893;
+  --green-400: #52b69a;
+  /* Darkened continuations (not in the source palette — see note above) */
+  --green-600: #40977e;
+  --green-700: #337a66;
+  --green-800: #2a6454;
+  --green-900: #214f42;
+
+  /* Neutrals, desaturated from the same green hue so the greys never
+   * look like they came from a different design. */
+  --ink: #252d2b;
+  --ink-muted: #5c706b;
+  --paper: #f5faf4;
+  --paper-raised: #ffffff;
+  --paper-sunken: #f5faf4;
+  --line: #dfe8db;          /* card edges — decorative, no contrast floor */
+  --line-strong: #76948b;   /* form-control edges — 3.1:1 on --paper, which
+                             * WCAG 1.4.11 requires for a control's visible
+                             * boundary; the softer --line fails that. */
+
+  /* The single blue, and only as the focus ring. */
+  --focus: #1a759f;
+
+  /* Semantic roles. Every text/background pairing here clears WCAG AA
+   * (4.5:1): the popup is 340px wide and nearly all of its type is
+   * 10.5-12.5px, so the "large text" 3:1 allowance never applies.
+   * Re-point a role at a different stop and re-check the pair. */
+  --surface: var(--paper);
+  --surface-raised: var(--paper-raised);
+  --surface-sunken: var(--paper-sunken);
+  --border: var(--line);
+  --text: var(--ink);
+  --text-muted: var(--ink-muted);
+  --accent: var(--green-800);        /* filled accent surface */
+  --accent-hover: var(--green-700);
+  --accent-ink: #ffffff;             /* text ON --accent */
+  --accent-wash: #ecf6ea;            /* tinted surface, not filled */
+  --accent-text: var(--green-900);   /* accent-coloured text on a wash */
+  --accent-line: var(--green-600);   /* accent-coloured rules and edges */
+  /* Allow is deliberately a different green from --accent: it sits beside
+   * Deny in the confirmation gate, and "the primary button" and "the one
+   * that authorises an action" must not be the same shape and colour. */
+  --allow: var(--green-700);
+
+  /* Danger stays red on purpose: deny / error / shield-off are the
+   * human-in-the-loop safety affordances, and "stop" reading as a brand
+   * colour is a usability problem, not a styling choice. */
+  --danger: #b3261e;
+  --danger-surface: #fdeceb;
+  --danger-text: #8c1d18;
+  --danger-line: #f6c9c6;
+}
+
+/* ---------------------------------------------------------------------------
+ * Dark mode. Only the raw values and the handful of green stops the roles
+ * point at are redefined — every rule below this block is written against
+ * roles, so nothing else has to change.
+ *
+ * The theme inverts rather than flips: on paper the accent is the DARK end
+ * of the green ramp with white text, and on a dark ground it is the LIGHT
+ * end with near-black text. Using the dark greens on a dark ground would
+ * have meant no contrast; using the light greens on paper would have meant
+ * none either.
+ * ------------------------------------------------------------------------ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #e4f1ed;
+    --ink-muted: #a5c0b9;
+    --paper: #0d1614;
+    --paper-raised: #151e1b;
+    --paper-sunken: #0a110f;
+    --line: #2f4139;
+    --line-strong: #5b7a70;   /* 4.1:1 on --paper-sunken, same 1.4.11 rule */
+
+    --focus: var(--green-400);
+
+    --accent: var(--green-300);
+    --accent-hover: var(--green-200);
+    --accent-ink: #0b110f;
+    --accent-wash: #1a2b25;
+    --accent-text: var(--green-200);
+    --accent-line: var(--green-600);
+    --allow: var(--green-100);
+
+    --danger: #c5352c;
+    --danger-surface: #3b1512;
+    --danger-text: #f2b8b5;
+    --danger-line: #6d2a25;
+  }
+}
+
+* { box-sizing: border-box; }
+body {
+  width: 340px;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--surface);
+  color: var(--text);
+}
+.app { padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+header { display: flex; flex-direction: column; gap: 2px; }
+.title { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+.subtitle { font-size: 12px; color: var(--text-muted); }
+.card {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 12.5px;
+}
+.card summary { cursor: pointer; font-weight: 600; }
+.row { display: flex; justify-content: space-between; align-items: center; padding: 3px 0; }
+.pill {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--accent-wash);
+  color: var(--accent-text);
+}
+.pill-active { background: var(--accent-wash); color: var(--accent-text); }
+.pill-inactive { background: var(--danger-surface); color: var(--danger-text); }
+textarea, input[type="text"], input[type="email"], input[type="password"] {
+  width: 100%;
+  background: var(--surface-sunken);
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  color: var(--text);
+  padding: 6px 8px;
+  font-size: 12.5px;
+  margin-top: 4px;
+  margin-bottom: 6px;
+}
+textarea:focus, input:focus, .btn:focus-visible, .card summary:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+label { display: block; font-size: 11.5px; color: var(--text-muted); }
+.btn {
+  border: none;
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 6px;
+}
+.btn-primary { background: var(--accent); color: var(--accent-ink); }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-secondary {
+  background: var(--surface-raised);
+  color: var(--accent-text);
+  border: 1px solid var(--line-strong);
+}
+.btn-secondary:hover { background: var(--accent-wash); }
+.btn-allow { background: var(--allow); color: var(--accent-ink); }
+.btn-deny { background: var(--danger); color: #ffffff; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 8px; }
+.error {
+  background: var(--danger-surface);
+  border-color: var(--danger-line);
+  color: var(--danger-text);
+}
+.confirmation {
+  background: var(--accent-wash);
+  border-color: var(--accent-line);
+  border-left: 3px solid var(--accent-line);
+  color: var(--accent-text);
+}
+.confirm-title { font-weight: 700; margin-bottom: 6px; }
+#confirmation-list { margin: 0 0 8px 16px; padding: 0; }
+.hidden { display: none !important; }
+footer { font-size: 10.5px; color: var(--text-muted); text-align: center; margin-top: 4px; }
+.muted { color: var(--text-muted); font-size: 11px; }
+#sanitized-screenshot {
+  display: block;
+  width: 100%;
+  max-height: 220px;
+  object-fit: contain;
+  object-position: top left;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-top: 4px;
+  background: var(--surface-sunken);
+}
+#sanitized-elements-json {
+  max-height: 160px;
+  overflow: auto;
+  background: var(--surface-sunken);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 10.5px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.chat-card { padding: 8px; }
+.chat-log {
+  max-height: 260px;
+  min-height: 80px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 4px 2px;
+}
+.chat-bubble {
+  max-width: 85%;
+  padding: 7px 10px;
+  border-radius: 12px;
+  font-size: 12.5px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.chat-bubble.user {
+  align-self: flex-end;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-bottom-right-radius: 3px;
+}
+.chat-bubble.agent {
+  align-self: flex-start;
+  background: var(--accent-wash);
+  color: var(--accent-text);
+  border-bottom-left-radius: 3px;
+}
+.chat-input-row {
+  display: flex;
+  gap: 6px;
+  align-items: flex-end;
+  margin-top: 6px;
+}
+.chat-input-row textarea {
+  flex: 1;
+  margin: 0;
+  resize: none;
+  max-height: 70px;
+}
+.chat-input-row .btn {
+  margin: 0;
+  flex-shrink: 0;
+}
+.btn-reset-chat {
+  margin-top: 8px;
+  width: 100%;
+  font-size: 11px;
+  padding: 5px 8px;
+  opacity: 0.75;
+}
